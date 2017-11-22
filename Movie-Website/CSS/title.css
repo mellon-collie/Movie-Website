@@ -1,0 +1,138 @@
+
+#container  {
+  width: 500px;
+  margin: auto;
+  position: relative;
+}
+
+img.left
+{
+    width: 100px;
+    position: absolute;
+    left: 510px;
+    top: 10px;
+
+}
+
+img.right
+{
+    width: 100px;
+    position: absolute;
+    right: 510px;
+    top: 10px;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+/*Neon*/
+p {
+  text-align: center;
+  font-size: 5em;
+  margin: 20px 0 20px 0;
+}
+
+a {
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+p a {
+  color: #fff;
+  font-family: 'Monoton', cursive;
+  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+  animation: neon1 1.5s ease-in-out infinite alternate;
+}
+
+p a:hover {
+  color: #FF1177;
+  -webkit-animation: none;
+  -moz-animation: none;
+  animation: none;
+  /*animation:flicker 1s infinite;*/
+
+}
+
+@-webkit-keyframes neon1 {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
+
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
+  }
+  /*from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228DFF, 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+  }*/
+}
+#bulb{
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
+
+}
+#bulb:hover{
+  animation:flicker 1s infinite;
+}
+
+
+@keyframes flicker{
+  0%{
+    opacity:.3;
+  }
+  3%{
+    opacity:.7;
+  }
+  4%{
+    opacity:.4;
+  }
+  12%{
+    opacity:.8;
+  }
+  15%{
+    opacity:.6;
+  }
+  30%{
+    opacity:.8;
+  }
+  35%{
+    opacity:1;
+  }
+  50%{
+    opacity:.7;
+  }
+  60%{
+    opacity:.9;
+  }
+  63%{
+    opacity:.5;
+  }
+  68%{
+    opacity:.7;
+  }
+  68.999%{
+    opacity:1;
+  }
+  69%{
+    opacity:.1;
+  }
+  75%{
+    opacity:.4;
+  }
+  80%{
+    opacity:.2;
+  }
+  90%{
+    opacity:.1;
+  }
+  95%{
+    opacity:0;
+  }
+}

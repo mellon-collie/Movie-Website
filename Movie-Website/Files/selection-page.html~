@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8">
+        <title>Selection Page</title>
+        <link rel="stylesheet" href="../CSS/selection.css">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript">
+         function getGenreId(genre)
+         {   
+            $.ajax({
+                type:'post',
+                url:'getNumberWatchedMovies.php',
+                data:{"genreName":genre},
+                success: function (){
+                    $.ajax({
+                    type: 'post',
+                    url: 'getGenreId.php',
+                    data: {"genreName":genre},
+                    success: function(data_1) {
+                        window.location.href = "activity-page.php?genreId="+data_1;
+                }
+            });
+
+                }
+            });
+           
+        }
+
+
+        function recommend()
+        {
+            $.ajax({
+                type:'post',
+                url:"recommend.php",
+                success: function(data)
+                {
+                    genres = data.split(" ");
+
+                    $.ajax({
+                        type:'post',
+                        url:"getGenreIds.php",
+                        data:{"genres":genres},
+                        success:function(data_1)
+                        {
+                            genreIds = data_1.split(" ")
+                            link = "recommendPage.php?";
+                            i = 0;
+                            link = link + "genreId"+i+"="+genreIds[i];
+                            for(i = 1;i<genreIds.length-1;i++)
+                            {
+                                link = link + "&genreId"+i+"="+genreIds[i];
+                            }
+                            window.location.href = link;
+                        }
+
+                    })
+                }
+            })
+        }
+    </script>
+    </head>
+    <body>
+        <nav class='menu'>
+            <input checked='checked' class='menu-toggler' id='menu-toggler' type='checkbox'>
+            <label for='menu-toggler'></label>
+            <ul>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Action')">Action</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Adventure')">Adventure</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Animation')">Animation</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Thriller')">Thriller</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Comedy')">Comedy</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Romance')">Romance</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Science Fiction')">Sci-Fi</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Mystery')">Mystery</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="getGenreId('Horror')">Horror</a>
+                </li>
+                <li class='menu-item'>
+                    <a href='#' onclick="recommend()">Your Stuff</a>
+                </li>
+
+            </ul>
+        </nav>
+    </body>
+</html>

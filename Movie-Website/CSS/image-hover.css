@@ -1,0 +1,96 @@
+.container {
+  width: 50%;
+}
+
+.image {
+  display: block;
+  width: 200px;
+  height: auto;
+  border: 0.1px solid white;
+}
+
+.images{
+	position: relative;
+	top: 400px;
+	left: 0px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0%;
+  width: 200px;
+  overflow: hidden;
+  transition: .5s ease;
+  background:rgba(3,3,3,0.5);
+}
+.container:hover .overlay {
+  height: 100%
+}
+
+
+
+.text {
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+   transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.watched {
+  position: absolute;
+  top: 28%;
+  left: 35%;
+   transform: translate(-25%, -25%);
+  -ms-transform: translate(-25%, -25%);
+}
+
+.heart {
+  position: absolute;
+  top: 58%;
+  left: 35%;
+   transform: translate(-25%, -25%);
+  -ms-transform: translate(-25%, -25%);
+}
+
+.poop {
+  position: absolute;
+  top: 58%;
+  left: 55%;
+   transform: translate(-25%, -25%);
+  -ms-transform: translate(-25%, -25%);
+
+}
+
+.buttonDetails {
+  border-radius: 8px;
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  position: absolute;
+  top: 38%;
+  left: 35%;
+  transform: translate(-25%, -25%);
+  -ms-transform: translate(-25%, -25%);
+
+
+}
+
+.buttonDetails:hover  {
+  background-color: #e7e7e7;
+  color: black;
+
+}

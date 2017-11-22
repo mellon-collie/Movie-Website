@@ -1,0 +1,110 @@
+<?php
+    session_start();
+    $servername = "localhost";
+    $username = "root";
+    $password = "terminator";
+    $dbname = "FilmNoirDB";
+    $conn = new mysqli($servername,$username,$password,$dbname);
+    if($conn->connect_error)
+    {
+        die("Connection failed".$conn->error);
+    }
+    
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $emailid = $_POST['email'];
+        if(strlen($emailid) == 0)
+        {
+            $message = "*Email ID field cannot be left empty!";
+        }
+        $password = $_POST['password'];
+        if(strlen($password) == 0)
+        {
+            $message = "*Password field cannot be left empty!";
+        } 
+        if(strlen($emailid) == 0 && strlen($password) == 0)
+        {
+            $message = "*Email ID field and Password field cannot be left empty!";
+        }     
+        if(strlen($emailid)>0 && strlen($password)>0)
+        {
+            $sql = "SELECT * FROM FilmNoirUserInfo";
+            $result = $conn->query($sql);
+            if($result->num_rows>0){
+                while($row = $result->fetch_assoc())
+                {
+                    if(strcmp($row["email"],$emailid) === 0 && strcmp($row["password"],$password) === 0)
+                    {
+                        $firstname = $row["firstname"];
+                        $lastname = $row["lastname"];
+                        $user = $row["username"];
+                        $found = 1;
+                        break;
+                    }
+                }
+                if($found == 0)
+                {
+                    $message = "Invalid user";
+                }
+                else if($found == 1)
+                {
+                     $_SESSION["firstname"] = $firstname;
+                     $_SESSION["lastname"] = $lastname; 
+                     $_SESSION["emailID"] = $emailid;
+                     $_SESSION["password"] = $password; 
+                     $_SESSION["username"] = $user;
+                     header("Location:activity-page.php");
+                     exit();                     
+                }
+            }
+           
+        }
+    } 
+?>  
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/CSS/login.css">
+	<link rel="stylesheet" type="text/css" href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/CSS/nav-bar.css">
+	<title> Login </title>
+</head>
+<body>
+	<div class = "nav-bar">
+	<ul>
+		<li> <a href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/HTML/home.html"> HOME </a> </li>
+		<li> <a href=""> BROWSE </a></li>
+		<li class = "dropdown"> <a href="" > GENRES</a>
+		<div class = "dropdown-content">
+			<a href=""> Action </a>
+			<a href=""> Comedy </a>
+			<a href=""> Thriller </a>
+			<a href=""> Neo-Noir </a>
+			<a href=""> Science Fiction </a>
+		</div>
+		</li>	
+		<div class = "login">
+		<li><a href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/PHP/login.php"> LOGIN </a> </li>
+		</div>
+		<div class = "signup">
+		<li><a href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/PHP/signup.php"> SIGN UP </a> </li>	
+		</div>
+		</div>
+	</ul>
+	</div>
+	<div class = "Form" >
+	<form action="", method ="post" >
+		<div class = "container">
+		<label> <b> Email ID </b> </label> <br />
+		<input type="email" placeholder="Enter email id" name = "email"> <br />
+
+		<label> <b> Password </b> </label> <br />
+		<input type="password" name="password" placeholder="Enter password"> <br />
+		<button type="submit"> Login </button> <br />
+		</div>
+	</form>
+        <?php echo $message; ?>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Home Page</title>
+		<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="../CSS/homestyles.css">
+		<link rel="stylesheet" type="text/css" href="../CSS/nav-bar.css">
+		<link rel="stylesheet" type="text/css" href="../CSS/title.css">
+		<script type="text/javascript" src="../JavaScript/homefunc.js"></script>
+		<script type="text/javascript">
+			function proceed()
+			{
+				window.location.href = "login.php";
+			}
+		</script>
+	</head>
+	<body>
+
+		<div id="container">
+			<img class="left" src="../Images/reelpic.png" alt="Image Not Found">
+		<p>
+			<a>Film-N<span id="bulb">o</span>ir</a>
+  		</p>
+			<img class="right" src="../Images/reelpic.png" alt="Image Not Found">
+		</div>
+
+		<div class="slideshow-container">
+
+  			<div class="mySlides fade">
+    			<img src="../Images/action.jpg" style="height: 625px; width: auto;">
+    			<div class="text"> <h2> Action </h2> </div>
+  			</div>
+
+  			<div class="mySlides fade">
+    			<img src="../Images/adventure.jpg" style="height: 625px; width: auto;">
+    			<div class="text"> <h2> Adventure </h2> </div>
+  			</div>
+
+			<div class="mySlides fade">
+			    <img src="../Images/animation.jpg" style="height: 625px;width: auto;">
+			    <div class="text"> <h2> Animation </h2> </div>
+			</div>
+
+  			<div class="mySlides fade">
+			    <img src="../Images/thriller.jpg" style="height: 625px;width: auto;">
+			    <div class="text"><h2> Thriller </h2> </div>
+			</div>
+
+  			<div class="mySlides fade">
+			    <img src="../Images/comedy.jpg" style="height: 625px;width: auto;">
+			    <div class="text"><h2> Comedy </h2> </div>
+			</div>
+
+			<div class="mySlides fade">
+			    <img src="../Images/romance.jpg" style="height: 625px;width: auto;">
+			    <div class="text"><h2> Romance </h2></div>
+			</div>
+
+			<div class="mySlides fade">
+			    <img src="../Images/sci-fi.jpg" style="height: 625px;width: auto;">
+			    <div class="text"><h2> Sci-Fi </h2></div>
+			</div>
+
+			<div class="mySlides fade">
+			    <img src="../Images/neo-noir.jpg" style="height: 625px;width: auto;">
+			    <div class="text"><h2> Mystery </h2></div>
+			</div>
+
+			<div class="mySlides fade">
+			    <img src="../Images/horror.jpg" style="height: 625px;width: 1000px;">
+			    <div class="text"><h2> Horror </h2></div>
+			</div>
+
+  			<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  			<a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+		</div>
+		<br>
+		<div style="text-align:center">
+			<span class = "dot"></span>
+			<script type="text/javascript">currentSlide(1)</script>
+  			<span class="dot" onclick="currentSlide(2)"></span>
+  			<span class="dot" onclick="currentSlide(3)"></span>
+  			<span class="dot" onclick="currentSlide(4)"></span>
+  			<span class="dot" onclick="currentSlide(5)"></span>
+  			<span class="dot" onclick="currentSlide(6)"></span>
+  			<span class="dot" onclick="currentSlide(7)"></span>
+  			<span class="dot" onclick="currentSlide(8)"></span>
+			<span class="dot" onclick="currentSlide(9)"></span>
+		</div>
+		<div style="text-align: center;">
+			<button onclick="proceed()">Proceed</button>
+		</div>
+	</body>
+</html>

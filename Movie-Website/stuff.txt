@@ -1,0 +1,11 @@
+Table for User's Information
+    - First Name
+    - Last Name
+    - User Name
+    - Email - ID
+    - Password
+
+Table for Movie Information of User
+    - User Name
+    - Password
+    - % of liked/watched for Each Genre of Movie

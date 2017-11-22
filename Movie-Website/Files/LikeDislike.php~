@@ -1,0 +1,80 @@
+<?php
+    session_start();
+    $info = $_POST["genreIDs"];
+    $GENRE = $info[0];
+    $genre = strtolower($GENRE);
+    $liked = $info[1];
+    $watched = $info[2];
+    $id = -1;
+    $count_liked = -1;
+    $count_watched = -1;
+    //print_r($genreIDS);
+    //echo $genre;
+    $servername = "localhost";
+    $username = "root";
+    $password = "terminator";
+    $dbname = "FilmNoirDB";
+    
+    $conn = new mysqli($servername,$username,$password,$dbname);
+    if($conn->connect_error)
+    {
+        die("Connection failed".$conn->error);
+    }
+    $sql = "SELECT * FROM usergenreinfo";
+    $result = $conn->query($sql);
+    $genre_liked = $genre."liked";
+    $genre_watched = $genre."watched";
+    if($result->num_rows>0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            if(strcmp($_SESSION["username"],$row["username"]) === 0)
+            {
+                $id = $row['id'];
+                $count_liked = $row[$genre_liked];
+                $count_watched = $row[$genre_watched];
+            }
+        }
+    }  
+    //echo $count_liked;
+    //echo $count_watched;
+    $count_liked = $count_liked + $liked;
+    $count_watched = $count_watched + $watched;
+    $sql_alter = "SELECT * FROM usergenreinfo";
+    $result_alter = $conn->query($sql_alter);
+    if($result_alter->num_rows>0)
+    {
+        while($row = $result_alter->fetch_assoc())
+        {
+           if(strcmp($_SESSION["username"],$row["username"]) === 0)
+           {
+                $id = $row['id'];               
+                $alter_sql_liked = "UPDATE usergenreinfo SET ".$genre."liked"."=".$count_liked." where id=".$id;
+                $conn->query($alter_sql_liked);
+                $alter_sql_watched = "UPDATE usergenreinfo SET ".$genre."watched"."=".$count_watched." where id=".$id;
+                $conn->query($alter_sql_watched);
+                
+                
+           }
+        }
+    }
+    $sql1 = "SELECT * FROM usergenreinfo";
+    $result1 = $conn->query($sql1);
+    $count_liked1 = -1;
+    $count_watched1 = -1;
+    if($result1->num_rows>0)
+    {
+        while($row = $result1->fetch_assoc())
+        {
+            if(strcmp($_SESSION["username"],$row["username"]) === 0)
+            {
+                $id = $row['id'];
+                $count_liked1 = $row[$genre_liked];
+                $count_watched1 = $row[$genre_watched];
+            }
+        }
+    }  
+    echo $count_liked1;
+    echo $count_watched1;
+    
+?>

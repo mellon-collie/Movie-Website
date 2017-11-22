@@ -1,0 +1,6 @@
+- run create_database.php. This will create the database.
+- Then go to create_tables.php, and run the first sql command. This will create the username-password table.
+- then comment that entire command, and run the second sql command. This will create the genre info table.
+- then go to signup page, and register a user.
+- after that, use that user and keep logging in.
+- data1.txt is the one that has the data for the python code.

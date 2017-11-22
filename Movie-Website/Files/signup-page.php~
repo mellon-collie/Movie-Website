@@ -1,0 +1,129 @@
+<?php
+    session_start();
+    $servername = "localhost";   
+    $userName = "root";
+    $password = "terminator";
+    $dbname = "FilmNoirDB";
+    $conn = new mysqli($servername,$userName,$password,$dbname);
+    if($conn->connect_error)
+    {
+        die("Connection failed".$conn->connect_error);
+    }
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $firstname = $_POST['fname'];
+        $lastname = $_POST['lname'];
+        $username = $_POST['user'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        //echo "Hello";
+        if(strlen($firstname) == 0 || strlen($lastname) == 0 || strlen($username) == 0 || strlen($email) == 0 || strlen($password) == 0)
+        {
+            $message = "* Filling all fields is compulsory";
+        }
+        else
+        {
+            $open_table_sql = "SELECT * FROM FilmNoirUserInfo";
+           
+            $user_info = $conn->query($open_table_sql);
+            if($user_info->num_rows>0)
+            {
+             
+                while($row = $user_info->fetch_assoc())
+                {
+                    if(strcmp($row["user"],$username) === 0 || strcmp($row["email"],$email) === 0)
+                    {
+                        $message = "*This username or emailID already exists. Please try another one!";
+                        $found = 1;
+                        break;
+                    }
+                }
+            }
+                
+            if($found == 0)
+            {
+                $insert_into_UserInfo_table_sql = "INSERT INTO FilmNoirUserInfo (username, firstname, lastname, email, password)
+                    VALUES ('$username', '$firstname', '$lastname', '$email', '$password')";
+                if($conn->query($insert_into_UserInfo_table_sql) === TRUE)
+                {
+                    $_SESSION["firstname"] = $firstname;
+                    $_SESSION["lastname"] = $lastname; 
+                    $_SESSION["emailID"] = $email;
+                    $_SESSION["username"] = $username;
+                    $_SESSION["password"] = $password; 
+                }
+                else 
+                {
+                    $message = "Error! Please try again ".$conn->error; 
+                }
+                    
+                    $insert_into_UserGenreInfo_table_sql = "INSERT INTO usergenreinfo (username,actionliked,actionwatched,adventureliked,adventurewatched,animationliked,animationwatched,thrillerliked,
+thrillerwatched,comedyliked,comedywatched,romanceliked,romancewatched,sciencefictionliked,sciencefictionwatched,neonoirliked,neonoirwatched,
+horrorliked,horrorwatched) VALUES ('$username',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)";
+                if($conn->query($insert_into_UserGenreInfo_table_sql) === TRUE)
+                {
+                    header("Location:activity-page.php");
+                    exit();
+                }
+                else
+                {
+                    $message = "Error entering into User Genre Info table".$conn->error;
+                }
+                
+            } 
+                
+        }
+    }
+?>
+        
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/CSS/login.css">
+	<link rel="stylesheet" type="text/css" href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/CSS/nav-bar.css">
+	<title> Sign Up </title>
+</head>
+<body>
+	<div class = "nav-bar">
+	<ul>
+		<li> <a href="../HTML/home.html"> HOME </a> </li>
+		<li> <a href=""> BROWSE </a></li>
+		<li class = "dropdown"> <a href="" > GENRES</a>
+		<div class = "dropdown-content">
+			<a href=""> Action </a>
+			<a href=""> Comedy </a>
+			<a href=""> Thriller </a>
+			<a href=""> Neo-Noir </a>
+			<a href=""> Science Fiction </a>
+		</div>
+		</li>	
+		<div class = "login">
+		<li><a href="../HTML/login.html"> LOGIN </a> </li>
+		</div>
+		<div class = "signup">
+		<li><a href="../HTML/signup.html"> SIGN UP </a> </li>	
+		</div>
+	</ul>
+	</div>
+	<div class = "Form">
+	<form action="", method = "post"> 
+	<div class = "container">
+		<label> First Name </label> <br />
+		<input type="text" name="fname" placeholder="Enter First Name"> <br />
+		<label> Last Name </label> <br />
+		<input type="text" name="lname" placeholder="Enter Last Name"> <br />
+		<label> Email ID </label> <br />
+		<input type="text" name="email" placeholder="Enter Email id"> <br />
+        <label> Username </label> <br />
+		<input type="text" name="user" placeholder="Enter username"> <br />
+		<label> Password </label> <br />
+		<input type="password" name="password" placeholder="Enter password"> <br />
+		<p> By creating this account, you agree to our <a href=""> Terms and Privacy </a> </p> <br />
+		<button type="submit"> SIGN UP </button> <br />
+	</div>
+	</form>
+        <p> <?php echo $message; ?> </p>
+	</div>
+
+</body>
+</html>

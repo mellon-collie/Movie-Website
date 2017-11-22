@@ -1,0 +1,249 @@
+<?php
+    session_start();
+    $year = 2016;
+    $cSession = curl_init('https://api.themoviedb.org/3/discover/movie?api_key=9fec24ec7d4e672df882a26a2de58930&language=en-US&sort_by=popularity.desc&primary_release_year='.$year.'&page=1');
+    curl_setopt($cSession,CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($cSession,CURLOPT_HEADER,false);
+    $result = curl_exec($cSession);
+    curl_close($cSession);  
+    $json = json_decode($result);  
+    
+    //&with_genres=12&
+    if(isset($_REQUEST['0']))
+    {
+        $id = $_REQUEST['0'];
+        $movie_details = $json->results[$id];
+        $_SESSION['array'] = (array)$movie_details;
+        header("Location:movie-details.php");
+    }
+            
+?>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/CSS/nav-bar.css">
+		<link rel="stylesheet" type="text/css" href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/CSS/image-hover.css">
+		<title> Hover Effect </title>
+	</head>
+	<body>
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script>
+             $(document).ready(function() {
+                $(".watched").click(function(){
+                    
+                   });
+    });
+            
+            $(document).ready(function() {
+                
+                $(".heart input:image").click(function(){
+                      var genre = ""
+                      var id = $(this).val()
+                      alert(id)
+                      $.ajax({
+                        type: 'post',
+                        url: 'getGenre.php',
+                        data: {"movieID":id},
+                        success: function(data_1) { 
+                            genre = data_1
+                            alert(data_1)
+                            var genreIDS = [genre,"1","1"] 
+                            alert(genreIDS)
+                            $.ajax({
+                            type: 'post',
+                            url: 'LikeDislike.php',
+                            data: {"genreIDs":genreIDS},
+                            success: function(data_2) {
+                                alert(data_2)                                              
+                        
+                        }
+                });        
+                            
+                        }
+                });
+                      
+        });
+     });
+           $(document).ready(function() {
+                
+                $(".poop input:image").click(function(){
+                      var genre = ""
+                      var id = $(this).val()
+                      alert(id)
+                      $.ajax({
+                        type: 'post',
+                        url: 'getGenre.php',
+                        data: {"movieID":id},
+                        success: function(data_1) { 
+                            genre = data_1
+                            alert(data_1)
+                            var genreIDS = [genre,"0","1"] 
+                            alert(genreIDS)
+                            $.ajax({
+                            type: 'post',
+                            url: 'LikeDislike.php',
+                            data: {"genreIDs":genreIDS},
+                            success: function(data_2) {
+                                alert(data_2)                                              
+                        
+                        }
+                });        
+                            
+                        }
+                });
+                      
+        });
+     });
+            
+                    
+        </script>
+		<div class = "nav-bar">
+			<ul>
+				<li> <a href="home.html"> HOME </a> </li>
+				<li> <a href=""> BROWSE </a></li>
+				<li class = "dropdown"> <a href="" > GENRES</a>
+					<div class = "dropdown-content">
+						<a href=""> Action </a>
+						<a href=""> Comedy </a>
+						<a href=""> Thriller </a>
+						<a href=""> Neo-Noir </a>
+						<a href=""> Science Fiction </a>
+					</div>
+				</li>
+             
+                <?php echo "<div class = 'firstname'> <li>".$_SESSION["firstname"]." ".$_SESSION["lastname"]."</li> </div>" ?> 
+				<div class = "login">
+					<li><a href="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/PHP/login.php"> LOGIN </a> </li>
+				</div>
+				<div class = "signup">
+       				
+                    <li><a href="logout.php"> SIGN OUT </a> </li>
+				</div>
+			</ul>
+		</div>
+
+  	<div class = "images">
+			<table width=100% style="padding:25px;margin:25px;">
+		 	<tr>
+
+			<td>
+			<div class="container">
+				<div style="position: absolute; top: 10px; left: 10px; width: 30%;">
+				<?php 
+                    $url = 'https://image.tmdb.org/t/p/w500'.$json->results[0]->poster_path;                      
+                    echo "<img src='".$url."' alt='No Image available' class='image'>"; 
+                ?>	
+					<div class="overlay">					                       
+                        <button class = "watched" name = "watched" value = ""> Watched </button> </form>                            <form>                           
+                        <button class = "buttonDetails" name = "0" value = "0">View Details</button> </form>
+						<?php echo "<div class =  'text'> Rating:".$json->results[0]->vote_average."</div>"; ?>
+						<div class="heart">
+						 <input type="image" src = "http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/heart.png" width="20" height="20" value = "<?php echo $json->results[0]->id ?>">
+						</div>
+						<div class = "poop">
+						<input type="image" src ="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/poop.png" width="20" height="20" value = "<?php echo $json->results[0]->id ?>"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</td>
+
+			<td>
+			<div class = "container">
+			<div style = "position: absolute; top:10px; left:250px; width:30%;">
+				<?php 
+                    $url = 'https://image.tmdb.org/t/p/w500'.$json->results[1]->poster_path;                      
+                    echo "<img src='".$url."' alt='No Image available' class='image'>"; 
+                ?>	
+					<div class="overlay">                       
+                        <button class = "watched" name = "watched" value = ""> Watched </button>                                    
+                        <form>						
+                        <button class = "buttonDetails" name = "0" value = "1"> View Details</button> </form>
+						<?php echo "<div class =  'text'> Rating:".$json->results[1]->vote_average."</div>"; ?>
+						<div class = "heart">
+						<input type="image" src="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/heart.png" width="20" height="20" value = "<?php echo $json->results[1]->id ?>"/>
+						</div>
+						<div class = "poop">
+						<input type="image" src ="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/poop.png" width="20" height="20" value = "<?php echo $json->results[1]->id ?>"/>
+						</div>
+					</div>
+			</div>
+			</div>
+		</td>
+
+		<td>
+			<div class = "container">
+			<div style = "position: absolute; top:10px; left:500px; width:30%;">
+				<?php 
+                    $url = 'https://image.tmdb.org/t/p/w500'.$json->results[2]->poster_path;                      
+                    echo "<img src='".$url."' alt='No Image available' class='image'>"; 
+                ?>	
+					<div class="overlay">                        
+                        <button class = "watched" name = "watched" value = ""> Watched </button>                                     
+                        <form>						
+                        <button class = "buttonDetails" name = "0" value = "2"> View Details</button> </form>
+						<?php echo "<div class =  'text'> Rating: ".$json->results[2]->vote_average."</div>"; ?>
+						<div class = "heart">
+						<input type="image" src="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/heart.png" width="20" height="20" value = "<?php echo $json->results[2]->id ?>"/>
+						</div>
+						<div class = "poop">
+						<input type="image" src ="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/poop.png" width="20" height="20" value = "<?php echo $json->results[2]->id ?>"/>
+						</div>
+					</div>
+			</div>
+			</div>
+		</td>
+
+		<td>
+			<div class = "container">
+			<div style = "position: absolute; top:10px; left:750px; width:30%;">
+				<?php 
+                    $url = 'https://image.tmdb.org/t/p/w500'.$json->results[3]->poster_path;                      
+                    echo "<img src='".$url."' alt='No Image available' class='image'>"; 
+                ?>	
+					<div class="overlay">                        
+                        <button class = "watched" name = "watched" value = ""> Watched </button>            					
+                        <form>	                    
+                        <button class = "buttonDetails" name = "0" value = "3"> View Details</button> </form>
+						<?php echo "<div class =  'text'> Rating:".$json->results[3]->vote_average."</div>"; ?>
+						<div class = "heart">
+						<input type="image" src="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/heart.png" width="20" height="20" value = "<?php echo $json->results[3]->id ?>"/>
+						</div>
+						<div class = "poop">
+						<input type="image" src ="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/poop.png" width="20" height="20" value = "<?php echo $json->results[3]->id ?>"/>
+						</div>
+					</div>
+			</div>
+			</div>
+		</td>
+
+		<td>
+			<div class = "container">
+				<div style = "position: absolute; top:10px; left:1000px; width:30%;">
+					<?php 
+                    $url = 'https://image.tmdb.org/t/p/w500'.$json->results[4]->poster_path;                      
+                    echo "<img src='".$url."' alt='No Image available' class='image'>"; 
+                ?>	
+						<div class="overlay">                       
+                        <button class = "watched" name = "watched" value = ""> Watched </button>                                        
+                            <form>							
+                            <button class = "buttonDetails" name = "0" value = "4"> View Details</button> </form>
+							<?php echo "<div class =  'text'> Rating:".$json->results[4]->vote_average."</div>"; ?>
+							<div class = "heart">
+							<input type="image" src="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/heart.png" width="20" height="20" value = "<?php echo $json->results[4]->id ?>"/>
+							</div>
+							<div class = "poop">
+							<input type="image" src ="http://localhost/WebTechProject/Web-Tech-Proj/Movie-Website/Heart-Poop-Images/poop.png" width="20" height="20" value = "<?php echo $json->results[4]->id ?>"/>
+							</div>
+						</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+		</div>
+	</body>
+</html>
+
