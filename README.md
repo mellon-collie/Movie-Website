@@ -1,1 +1,6 @@
-A Movie Website built as a part of the Web Technologies course at PES University. It was deployed on local host, and uses the TmDB API to scrape movie content.
+A Movie Rating Website built using:
+HTML, CSS3 and JavaScript- Front End
+PHP and Ajax - Backend
+
+It can be deployed on localhost, and uses the TmDB API for movie content.
+
